@@ -1,9 +1,27 @@
 {
-  "name": "home-i18n",
+  "name": "json2gsheet",
   "version": "0.0.1",
-  "description": "Brings JSON data to Google Sheet",
+  "description": "Brings JSON data to Google Sheet, vice versa",
   "main": "index.js",
   "author": "Raphx <rcxng93@hotmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "lint": "eslint src",
+    "build": "babel src -d dist",
+    "build:w": "babel src -d dist -w",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.12.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "google-auth-library": "^0.12.0",
+    "googleapis": "^23.0.0"
+  }
 }
