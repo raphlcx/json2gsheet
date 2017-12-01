@@ -1,0 +1,9 @@
+{
+  "name": "home-i18n",
+  "version": "0.0.1",
+  "description": "Brings JSON data to Google Sheet",
+  "main": "index.js",
+  "author": "Raphx <rcxng93@hotmail.com>",
+  "license": "MIT",
+  "private": true
+}
