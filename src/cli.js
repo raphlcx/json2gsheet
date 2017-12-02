@@ -2,7 +2,7 @@ import command from './command'
 
 export const main = () => {
   const help = `
-  json2gsheet - Brings JSON data to Google Sheet, vice versa.
+  json2gsheet - Serializes JSON data to Google Sheet, and vice versa.
 
   Usage: node index.js <push|pull> <locale_code>
 
