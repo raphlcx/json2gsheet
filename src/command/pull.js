@@ -5,16 +5,16 @@ import config from '../../config/sheets.json'
 import google from 'googleapis'
 import {
   makeA1Notation,
-  getColumnByCommand
+  getColumnByLocaleCode
 } from '../util'
 
-export const pull = (command, auth) => {
-  const column = getColumnByCommand(config.translationColumns, command)
+export const pull = (localeCode, auth) => {
+  const column = getColumnByLocaleCode(config.translationColumns, localeCode)
   return readSheetToJson(column, auth)
     .then(assemble)
     .then(deflat)
     .then(stringify)
-    .then(data => write(`locale.${command}.json`, data))
+    .then(data => write(`locale.${localeCode}.json`, data))
     .catch(err => console.log('Error on pull:', err))
 }
 
