@@ -1,16 +1,17 @@
 import fs from 'fs'
 import { promisify } from 'util'
 import { unflatten } from 'flat'
-import config from '../../config/sheets.json'
 import google from 'googleapis'
+import config from '../../config/sheets.json'
 import {
   makeA1Notation,
   getColumnByLocaleCode
 } from '../util'
+import { authorize } from '../auth'
 
-export const pull = (localeCode, auth) => {
+export const pull = (localeCode) => {
   const column = getColumnByLocaleCode(config.translationColumns, localeCode)
-  return readSheetToJson(column, auth)
+  return readSheetToJson(column)
     .then(assemble)
     .then(deflat)
     .then(stringify)
@@ -18,29 +19,32 @@ export const pull = (localeCode, auth) => {
     .catch(err => console.log('Error on pull:', err))
 }
 
-const readSheetToJson = (column, auth) => {
-  const service = google.sheets('v4')
-  return new Promise((resolve, reject) => {
-    service.spreadsheets.values.batchGet({
-      spreadsheetId: config.spreadsheetId,
-      auth: auth,
-      ranges: [
-        makeA1Notation(
-          config.sheetName,
-          config.keyColumn.cellStart,
-          config.keyColumn.column
-        ),
-        makeA1Notation(
-          config.sheetName,
-          column.cellStart,
-          column.column
-        )
-      ]
-    }, (err, result) => {
-      if (err) reject(err)
-      resolve(result.valueRanges)
+const readSheetToJson = (column) => {
+  return authorize()
+    .then(auth => {
+      const service = google.sheets('v4')
+      return new Promise((resolve, reject) => {
+        service.spreadsheets.values.batchGet({
+          spreadsheetId: config.spreadsheetId,
+          auth: auth,
+          ranges: [
+            makeA1Notation(
+              config.sheetName,
+              config.keyColumn.cellStart,
+              config.keyColumn.column
+            ),
+            makeA1Notation(
+              config.sheetName,
+              column.cellStart,
+              column.column
+            )
+          ]
+        }, (err, result) => {
+          if (err) reject(err)
+          resolve(result.valueRanges)
+        })
+      })
     })
-  })
 }
 
 export const assemble = data => {

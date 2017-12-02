@@ -7,13 +7,14 @@ import {
   makeA1Notation,
   getColumnByLocaleCode
 } from '../util'
+import { authorize } from '../auth'
 
-export const push = (localeCode, auth) => {
+export const push = (localeCode) => {
   const column = getColumnByLocaleCode(config.translationColumns, localeCode)
   return read(`locale.${localeCode}.json`)
     .then(parse)
     .then(flat)
-    .then(json => writeJsonToSheet(json, column, auth))
+    .then(json => writeJsonToSheet(json, column))
     .catch(err => console.log('Error on push:', err))
 }
 
@@ -26,36 +27,39 @@ const parse = data =>
 const flat = json =>
   new Promise((resolve) => resolve(flatten(json)))
 
-const writeJsonToSheet = (json, column, auth) => {
-  const service = google.sheets('v4')
-  return new Promise((resolve, reject) => {
-    service.spreadsheets.values.batchUpdate({
-      spreadsheetId: config.spreadsheetId,
-      auth: auth,
-      resource: {
-        data: [
-          {
-            range: makeA1Notation(
-              config.sheetName,
-              config.keyColumn.cellStart,
-              config.keyColumn.column
-            ),
-            values: Object.keys(json).map(key => [key])
-          },
-          {
-            range: makeA1Notation(
-              config.sheetName,
-              column.cellStart,
-              column.column
-            ),
-            values: Object.values(json).map(val => [val])
+const writeJsonToSheet = (json, column) => {
+  return authorize()
+    .then(auth => {
+      const service = google.sheets('v4')
+      return new Promise((resolve, reject) => {
+        service.spreadsheets.values.batchUpdate({
+          spreadsheetId: config.spreadsheetId,
+          auth: auth,
+          resource: {
+            data: [
+              {
+                range: makeA1Notation(
+                  config.sheetName,
+                  config.keyColumn.cellStart,
+                  config.keyColumn.column
+                ),
+                values: Object.keys(json).map(key => [key])
+              },
+              {
+                range: makeA1Notation(
+                  config.sheetName,
+                  column.cellStart,
+                  column.column
+                ),
+                values: Object.values(json).map(val => [val])
+              }
+            ],
+            valueInputOption: 'RAW'
           }
-        ],
-        valueInputOption: 'RAW'
-      }
-    }, (err, result) => {
-      if (err) reject(err)
-      resolve(result)
+        }, (err, result) => {
+          if (err) reject(err)
+          resolve(result)
+        })
+      })
     })
-  })
 }

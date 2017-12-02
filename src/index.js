@@ -1,15 +1,6 @@
-import fs from 'fs'
-import { promisify } from 'util'
-import { authorize } from './auth'
+import command from './command'
 
-// Load client secrets from a local file.
-promisify(fs.readFile)('config/client_secret.json')
-  .then(content => {
-    return authorize(JSON.parse(content))
-  })
-  .then(auth => {
-    console.log(auth)
-  })
+command.push('en')
   .catch(err => {
     console.log('Error occured: ' + err)
   })

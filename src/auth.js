@@ -12,12 +12,25 @@ const TOKEN_DIR = (
 const TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.json2gsheet.json'
 
 /**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
+ * Authorize to get an OAuth2 client with client secret.
  *
- * @param {Object} credentials The authorization client credentials.
+ * @async
+ * @returns {google.auth.OAuth2} The OAuth2 client.
  */
-export const authorize = (credentials) => {
+export const authorize = () =>
+  promisify(fs.readFile)('config/client_secret.json')
+    .then(content => {
+      return createAuthClient(JSON.parse(content))
+    })
+
+/**
+ * Create an OAuth2 client with the given credentials.
+ *
+ * @async
+ * @param {Object} credentials The authorization client credentials.
+ * @returns {google.auth.OAuth2} The created OAuth2 client.
+ */
+export const createAuthClient = (credentials) => {
   const clientSecret = credentials.installed.client_secret
   const clientId = credentials.installed.client_id
   const redirectUrl = credentials.installed.redirect_uris[0]
@@ -36,10 +49,11 @@ export const authorize = (credentials) => {
 }
 
 /**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
+ * Get and store new token after prompting for user authorization.
  *
+ * @async
  * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
+ * @returns {google.auth.OAuth2} The OAuth2 client with token attached.
  */
 const getNewToken = (oauth2Client) => {
   const authUrl = oauth2Client.generateAuthUrl({
