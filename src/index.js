@@ -1,6 +1,3 @@
-import command from './command'
+import { main } from './cli'
 
-command.push('en')
-  .catch(err => {
-    console.log('Error occured: ' + err)
-  })
+main()
