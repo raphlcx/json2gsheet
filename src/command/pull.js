@@ -48,17 +48,36 @@ const readSheetToJson = (column) => {
 }
 
 export const assemble = data => {
-  const [key, value] = data
+  const [keyCol, valueCol] = data
   return new Promise((resolve) => {
     resolve(
-      key.values
-        .map((k, i) => [k[0], value.values[i][0]]) // a zip function
+      keyCol.values
+        .map((k, i) => [
+          k[0],
+          getColumnValue(valueCol, i)
+        ]) // a zip function
         .reduce((acc, cur) => {
           acc[cur[0]] = cur[1]
           return acc
         }, {})
     )
   })
+}
+
+const getColumnValue = (col, rowIndex) => {
+  if (col.values === undefined) {
+    // The whole column is empty
+    return ''
+  } else if (col.values[rowIndex] === undefined) {
+    // The specific row in the column is empty
+    return ''
+  } else if (col.values[rowIndex].length === 0) {
+    // First row empty, second row is non-empty.
+    // In this case, the first row will be empty array, instead of undefined.
+    return ''
+  }
+
+  return col.values[rowIndex][0]
 }
 
 const deflat = json =>
