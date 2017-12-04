@@ -5,17 +5,17 @@ import google from 'googleapis'
 import config from '../../config/sheets.json'
 import {
   makeA1Notation,
-  getColumnByLocaleCode
+  getColumnById
 } from '../util'
 import { authorize } from '../auth'
 
-export const pull = (localeCode) => {
-  const column = getColumnByLocaleCode(config.translationColumns, localeCode)
+export const pull = (id) => {
+  const column = getColumnById(config.translationColumns, id)
   return readSheetToJson(column)
     .then(assemble)
     .then(deflat)
     .then(stringify)
-    .then(data => write(`locale.${localeCode}.json`, data))
+    .then(data => write(`locale.${id}.json`, data))
     .catch(err => console.log('Error on pull:', err))
 }
 

@@ -4,7 +4,7 @@ export const main = () => {
   const help = `
   json2gsheet - Serializes JSON data to Google Sheet, and vice versa.
 
-  Usage: node index.js <push|pull> <locale_code>
+  Usage: node index.js <push|pull> <id>
 
   Subcommands:
 
@@ -13,8 +13,7 @@ export const main = () => {
 
   Arguments:
 
-    locale_code - A short two-letter code for locating the JSON file, named
-                  with the format 'locale.<locale_code>.json'
+    id - An ID for identifying which JSON file to read or write
 `
 
   if (process.argv.length < 4) {
@@ -24,14 +23,14 @@ export const main = () => {
   }
 
   const subcommand = process.argv[2]
-  const localeCode = process.argv[3]
+  const id = process.argv[3]
 
   switch (subcommand) {
     case 'push':
-      command.push(localeCode)
+      command.push(id)
       break
     case 'pull':
-      command.pull(localeCode)
+      command.pull(id)
       break
     default:
       console.log('Invalid subcommand.')

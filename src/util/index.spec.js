@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 import {
   makeA1Notation,
-  getColumnByLocaleCode
+  getColumnById
 } from './index'
 
 describe('util', function () {
@@ -20,24 +20,24 @@ describe('util', function () {
     })
   })
 
-  describe('getColumnByLocaleCode', function () {
+  describe('getColumnById', function () {
     const columns = [
-      { i: 0, localeCode: 'en' },
-      { i: 1, localeCode: 'de' },
-      { i: 2, localeCode: 'en' }
+      { i: 0, id: 'en' },
+      { i: 1, id: 'de' },
+      { i: 2, id: 'en' }
     ]
 
-    it('returns a single column on locale code match', function () {
+    it('returns a single column on ID match', function () {
       expect(
-        getColumnByLocaleCode(columns, 'en')
+        getColumnById(columns, 'en')
       ).to.equal(
         columns[0]
       )
     })
 
-    it('raises error on no locale code match', function () {
+    it('raises error on no ID match', function () {
       expect(
-        () => getColumnByLocaleCode(columns, 'nonexistent')
+        () => getColumnById(columns, 'nonexistent')
       ).to.throw()
     })
   })

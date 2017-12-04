@@ -5,13 +5,13 @@ import google from 'googleapis'
 import config from '../../config/sheets.json'
 import {
   makeA1Notation,
-  getColumnByLocaleCode
+  getColumnById
 } from '../util'
 import { authorize } from '../auth'
 
-export const push = (localeCode) => {
-  const column = getColumnByLocaleCode(config.translationColumns, localeCode)
-  return read(`locale.${localeCode}.json`)
+export const push = (id) => {
+  const column = getColumnById(config.translationColumns, id)
+  return read(`locale.${id}.json`)
     .then(parse)
     .then(flat)
     .then(json => writeJsonToSheet(json, column))

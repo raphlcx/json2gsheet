@@ -9,19 +9,19 @@
   "translationColumns": [
     {
       "label": "English",
-      "localeCode": "en",
+      "id": "en",
       "column": "B",
       "cellStart": "B2"
     },
     {
       "label": "Russian",
-      "localeCode": "ru",
+      "id": "ru",
       "column": "C",
       "cellStart": "C2"
     },
     {
       "label": "Italian",
-      "localeCode": "it",
+      "id": "it",
       "column": "D",
       "cellStart": "D2"
     }
