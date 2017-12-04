@@ -10,3 +10,6 @@ export const getColumnById = (columns, id) => {
     'ID does not exist. Add it in the config/sheets.json.'
   )
 }
+
+export const getFileName = (fileNameTemplate, id) =>
+  fileNameTemplate.replace('$id', id)

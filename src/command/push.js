@@ -5,13 +5,14 @@ import google from 'googleapis'
 import config from '../../config/config.json'
 import {
   makeA1Notation,
-  getColumnById
+  getColumnById,
+  getFileName
 } from '../util'
 import { authorize } from '../auth'
 
 export const push = (id) => {
   const column = getColumnById(config.sheets.translationColumns, id)
-  return read(`locale.${id}.json`)
+  return read(getFileName(config.app.jsonFileName, id))
     .then(parse)
     .then(flat)
     .then(json => writeJsonToSheet(json, column))

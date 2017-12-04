@@ -1,4 +1,7 @@
 {
+  "app": {
+    "jsonFileName": "locale.$id.json"
+  },
   "sheets": {
     "spreadsheetId": "1qMKlGyC5QpWXLuUASXtI-O6E2G-djexH4IN3FoL2dQk",
     "sheetName": "Translation",

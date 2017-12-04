@@ -5,7 +5,8 @@ import google from 'googleapis'
 import config from '../../config/config.json'
 import {
   makeA1Notation,
-  getColumnById
+  getColumnById,
+  getFileName
 } from '../util'
 import { authorize } from '../auth'
 
@@ -15,7 +16,9 @@ export const pull = (id) => {
     .then(assemble)
     .then(deflat)
     .then(stringify)
-    .then(data => write(`locale.${id}.json`, data))
+    .then(data => write(
+      getFileName(config.app.jsonFileName, id), data
+    ))
     .catch(err => console.log('Error on pull:', err))
 }
 

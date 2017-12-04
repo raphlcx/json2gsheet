@@ -2,7 +2,8 @@
 import { expect } from 'chai'
 import {
   makeA1Notation,
-  getColumnById
+  getColumnById,
+  getFileName
 } from './index'
 
 describe('util', function () {
@@ -39,6 +40,14 @@ describe('util', function () {
       expect(
         () => getColumnById(columns, 'nonexistent')
       ).to.throw()
+    })
+  })
+
+  describe('getFileName', function () {
+    it('returns replaces the ID placeholder with supplied ID', function () {
+      expect(
+        getFileName('test.$id.html', '123abc')
+      ).to.equal('test.123abc.html')
     })
   })
 })
