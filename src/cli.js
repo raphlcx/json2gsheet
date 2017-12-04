@@ -4,7 +4,7 @@ export const main = () => {
   const help = `
   json2gsheet - Serializes JSON data to Google Sheet, and vice versa.
 
-  Usage: node index.js <push|pull> <id>
+  Usage: json2gsheet <push|pull> <id>
 
   Subcommands:
 
