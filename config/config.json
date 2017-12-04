@@ -1,0 +1,31 @@
+{
+  "sheets": {
+    "spreadsheetId": "1qMKlGyC5QpWXLuUASXtI-O6E2G-djexH4IN3FoL2dQk",
+    "sheetName": "Translation",
+    "keyColumn": {
+      "label": "Key",
+      "column": "A",
+      "cellStart": "A2"
+    },
+    "translationColumns": [
+      {
+        "label": "English",
+        "id": "en",
+        "column": "B",
+        "cellStart": "B2"
+      },
+      {
+        "label": "Russian",
+        "id": "ru",
+        "column": "C",
+        "cellStart": "C2"
+      },
+      {
+        "label": "Italian",
+        "id": "it",
+        "column": "D",
+        "cellStart": "D2"
+      }
+    ]
+  }
+}

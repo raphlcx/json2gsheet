@@ -2,7 +2,7 @@ import fs from 'fs'
 import { promisify } from 'util'
 import flatten from 'flat'
 import google from 'googleapis'
-import config from '../../config/sheets.json'
+import config from '../../config/config.json'
 import {
   makeA1Notation,
   getColumnById
@@ -10,7 +10,7 @@ import {
 import { authorize } from '../auth'
 
 export const push = (id) => {
-  const column = getColumnById(config.translationColumns, id)
+  const column = getColumnById(config.sheets.translationColumns, id)
   return read(`locale.${id}.json`)
     .then(parse)
     .then(flat)
@@ -33,21 +33,21 @@ const writeJsonToSheet = (json, column) => {
       const service = google.sheets('v4')
       return new Promise((resolve, reject) => {
         service.spreadsheets.values.batchUpdate({
-          spreadsheetId: config.spreadsheetId,
+          spreadsheetId: config.sheets.spreadsheetId,
           auth: auth,
           resource: {
             data: [
               {
                 range: makeA1Notation(
-                  config.sheetName,
-                  config.keyColumn.cellStart,
-                  config.keyColumn.column
+                  config.sheets.sheetName,
+                  config.sheets.keyColumn.cellStart,
+                  config.sheets.keyColumn.column
                 ),
                 values: Object.keys(json).map(key => [key])
               },
               {
                 range: makeA1Notation(
-                  config.sheetName,
+                  config.sheets.sheetName,
                   column.cellStart,
                   column.column
                 ),
