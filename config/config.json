@@ -10,7 +10,7 @@
       "column": "A",
       "cellStart": "A2"
     },
-    "translationColumns": [
+    "valueColumns": [
       {
         "label": "English",
         "id": "en",

@@ -11,7 +11,7 @@ import {
 import { authorize } from '../auth'
 
 export const push = (id) => {
-  const column = getColumnById(config.sheets.translationColumns, id)
+  const column = getColumnById(config.sheets.valueColumns, id)
   return read(getFileName(config.app.jsonFileName, id))
     .then(parse)
     .then(flat)

@@ -11,7 +11,7 @@ import {
 import { authorize } from '../auth'
 
 export const pull = (id) => {
-  const column = getColumnById(config.sheets.translationColumns, id)
+  const column = getColumnById(config.sheets.valueColumns, id)
   return readSheetToJson(column)
     .then(assemble)
     .then(deflat)
