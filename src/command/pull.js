@@ -2,7 +2,7 @@ import fs from 'fs'
 import { promisify } from 'util'
 import { unflatten } from 'flat'
 import google from 'googleapis'
-import config from '../../config/config.json'
+import { getConfig } from '../config'
 import {
   makeA1Notation,
   getColumnById,
@@ -11,8 +11,9 @@ import {
 import { authorize } from '../auth'
 
 export const pull = (id) => {
+  const config = getConfig()
   const column = getColumnById(config.sheets.valueColumns, id)
-  return readSheetToJson(column)
+  return readSheetToJson(config, column)
     .then(assemble)
     .then(deflat)
     .then(stringify)
@@ -22,7 +23,7 @@ export const pull = (id) => {
     .catch(err => console.log('Error on pull:', err))
 }
 
-const readSheetToJson = (column) => {
+const readSheetToJson = (config, column) => {
   return authorize()
     .then(auth => {
       const service = google.sheets('v4')

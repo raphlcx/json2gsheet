@@ -2,7 +2,7 @@ import fs from 'fs'
 import { promisify } from 'util'
 import flatten from 'flat'
 import google from 'googleapis'
-import config from '../../config/config.json'
+import { getConfig } from '../config'
 import {
   makeA1Notation,
   getColumnById,
@@ -11,11 +11,12 @@ import {
 import { authorize } from '../auth'
 
 export const push = (id) => {
+  const config = getConfig()
   const column = getColumnById(config.sheets.valueColumns, id)
   return read(getFileName(config.app.jsonFileName, id))
     .then(parse)
     .then(flat)
-    .then(json => writeJsonToSheet(json, column))
+    .then(json => writeJsonToSheet(config, json, column))
     .catch(err => console.log('Error on push:', err))
 }
 
@@ -28,7 +29,7 @@ const parse = data =>
 const flat = json =>
   new Promise((resolve) => resolve(flatten(json)))
 
-const writeJsonToSheet = (json, column) => {
+const writeJsonToSheet = (config, json, column) => {
   return authorize()
     .then(auth => {
       const service = google.sheets('v4')
