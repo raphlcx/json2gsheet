@@ -14,7 +14,7 @@ Install as project dependency:
 
 `json2gsheet` was started out to always push keys to the same column, and varying values from different files to its respective column. The current structure of the configuration file for the application is reflected on this use case.
 
-It uses an identifying attribute, the `id`, to correlate the JSON file and the sheet column it is pushed to.
+It uses an identifying attribute, an ID, to correlate the JSON file and the sheet column it is pushed to.
 
 Conceptually:
 
@@ -22,9 +22,9 @@ Conceptually:
     JsonFile <--> ID <--> GoogleSheetColumn
 ```
 
-`id` identifies the JSON file, at the same time it identifies which column to push the JSON values to. It is a one-to-one mapping.
+ID identifies the JSON file, at the same time it identifies which column to push the JSON values to. It is a one-to-one mapping.
 
-Files are identified through the use of file name template. For instance, given the file name template `file.$id.json`, and the `id` supplied is `123`, the JSON file `file.123.json` will be loaded.
+Files are identified through the use of file name template. For instance, given the file name template `file.$id.json`, and the ID supplied is `123`, the JSON file `file.123.json` will be loaded.
 
 Which column the JSON values is pushed to is specified in the configuration file.
 
