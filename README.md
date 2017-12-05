@@ -31,9 +31,9 @@ Which column the JSON values is pushed to is specified in the configuration file
 
 ## Usage
 
-In your working directory, create a directory named `config`, with two files inside:
+In your working directory, create two files:
 
- - `json2gsheet.json`, the application configuration
+ - `json2gsheet.config.json`, the application configuration
 
  - `client_secret.json`, your OAuth2 client credential for authorizing with Google
 
@@ -52,7 +52,7 @@ Pulls data from Google Sheet, unflattens the data, and saves the JSON to a file 
 
 ## Configuration
 
-This project is heavily driven by configurations. You can find a copy of [sample configuration](config/json2gsheet.json) in this repository.
+This project is heavily driven by configurations. You can find a copy of [sample configuration](json2gsheet.config.json) in this repository.
 
 **References**
 

@@ -7,7 +7,7 @@ export const getColumnById = (columns, id) => {
     return column[0]
   }
   throw new Error(
-    'ID does not exist. Add it in the config/config.json.'
+    'ID does not exist. Add it in the configuration file.'
   )
 }
 

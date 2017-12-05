@@ -67,4 +67,4 @@ typings/
 
 ## Project specific
 dist
-config/client_secret.json
+client_secret.json
