@@ -84,8 +84,8 @@ const getColumnValue = (col, rowIndex) => {
   return col.values[rowIndex][0]
 }
 
-export const deflat = flatJson =>
-  new Promise((resolve) => resolve(unflatten(flatJson, { object: true })))
+const deflat = json =>
+  new Promise((resolve) => resolve(unflatten(json)))
 
 const stringify = json =>
   new Promise((resolve) => resolve(JSON.stringify(json, null, 2)))

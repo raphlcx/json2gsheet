@@ -1,10 +1,7 @@
 /* eslint-env mocha */
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {
-  assemble,
-  deflat
-} from './pull'
+import { assemble } from './pull'
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -68,26 +65,6 @@ describe('Pull command', function () {
       }
       return expect(
         assemble(data)
-      ).to.eventually.be.deep.equal(expected)
-    })
-  })
-
-  describe('Deflat', function () {
-    it('retains numeric key as object', function () {
-      const flatJson = {
-        'abc.def.0': 'text1',
-        'abc.def.1': 'text2'
-      }
-      const expected = {
-        abc: {
-          def: {
-            0: 'text1',
-            1: 'text2'
-          }
-        }
-      }
-      return expect(
-        deflat(flatJson)
       ).to.eventually.be.deep.equal(expected)
     })
   })
