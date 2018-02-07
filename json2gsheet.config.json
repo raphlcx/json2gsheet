@@ -1,6 +1,11 @@
 {
   "app": {
-    "jsonFileName": "locale.$id.json"
+    "jsonFileName": "locale.$id.json",
+    "command": {
+      "pull": {
+        "skipEmptyValue": true
+      }
+    }
   },
   "sheets": {
     "spreadsheetId": "1qMKlGyC5QpWXLuUASXtI-O6E2G-djexH4IN3FoL2dQk",

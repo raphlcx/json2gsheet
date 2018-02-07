@@ -6,15 +6,27 @@ import { getConfig } from '../config'
 import {
   makeA1Notation,
   getColumnById,
+  getDeepObject,
   getFileName
 } from '../util'
 import { authorize } from '../auth'
 
 export const pull = (id) => {
   const config = getConfig()
+  const configSkipEmptyValue = getDeepObject(
+    ['app', 'command', 'pull', 'skipEmptyValue'],
+    config
+  )
+
   const column = getColumnById(config.sheets.valueColumns, id)
   return readSheetToJson(config, column)
     .then(assemble)
+    .then(data => {
+      if (configSkipEmptyValue === true) {
+        return filterEmptyValue(data)
+      }
+      return data
+    })
     .then(deflat)
     .then(stringify)
     .then(data => write(
@@ -67,6 +79,16 @@ export const assemble = data => {
     )
   })
 }
+
+export const filterEmptyValue = json =>
+  new Promise((resolve) => {
+    resolve(
+      Object.keys(json).reduce((acc, key) => {
+        if (json[key] !== '') acc[key] = json[key]
+        return acc
+      }, {})
+    )
+  })
 
 const getColumnValue = (col, rowIndex) => {
   if (col.values === undefined) {

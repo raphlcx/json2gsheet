@@ -11,5 +11,8 @@ export const getColumnById = (columns, id) => {
   )
 }
 
+export const getDeepObject = (p, o) =>
+  p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+
 export const getFileName = (fileNameTemplate, id) =>
   fileNameTemplate.replace('$id', id)

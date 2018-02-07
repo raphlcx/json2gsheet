@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import {
   makeA1Notation,
   getColumnById,
+  getDeepObject,
   getFileName
 } from './index'
 
@@ -40,6 +41,30 @@ describe('util', function () {
       expect(
         () => getColumnById(columns, 'nonexistent')
       ).to.throw()
+    })
+  })
+
+  describe('getDeepObject', function () {
+    const obj = {
+      a: {
+        b: {
+          c: 1
+        }
+      }
+    }
+
+    it('returns value if key is found', function () {
+      expect(
+        getDeepObject(['a', 'b', 'c'], obj)
+      ).to.equal(
+        1
+      )
+    })
+
+    it('returns null if key is not found', function () {
+      expect(
+        getDeepObject(['a', 'b', 'nonExistent'], obj)
+      ).to.be.null
     })
   })
 

@@ -60,6 +60,10 @@ This project is heavily driven by configurations. You can find a copy of [sample
 
     The file name template for the JSON file.
 
+ - **app.command.pull.skipEmptyValue**
+
+    If `true`, exclude the object key in the generate JSON file if the cell has an empty content, which also denotes an empty value.
+
  - **sheets.spreadsheetId**
 
     The Google Sheet ID.

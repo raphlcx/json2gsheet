@@ -1,7 +1,10 @@
 /* eslint-env mocha */
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { assemble } from './pull'
+import {
+  assemble,
+  filterEmptyValue
+} from './pull'
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -65,6 +68,23 @@ describe('Pull command', function () {
       }
       return expect(
         assemble(data)
+      ).to.eventually.be.deep.equal(expected)
+    })
+  })
+
+  describe('Empty value filtering', function () {
+    it('filters out entry with empty value', function () {
+      const json = {
+        'key.a': 'somestring',
+        'key.b': '',
+        'key.c': 'anotherstring'
+      }
+      const expected = {
+        'key.a': 'somestring',
+        'key.c': 'anotherstring'
+      }
+      return expect(
+        filterEmptyValue(json)
       ).to.eventually.be.deep.equal(expected)
     })
   })
