@@ -7,7 +7,7 @@ Serializes JSON data to Google Sheet, and vice versa.
 
 Install as project dependency:
 
-    yarn add json2gsheet
+    npm install json2gsheet
 
 
 ## Concept
@@ -91,11 +91,11 @@ This project is heavily driven by configurations. You can find a copy of [sample
 
 Run a watcher for source transpilation:
 
-    yarn run build:w
+    npm run build:w
 
 Run the tests:
 
-    yarn test
+    npm test
 
 
 ## License
