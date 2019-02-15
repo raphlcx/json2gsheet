@@ -2,14 +2,14 @@ import command from './command'
 
 export const main = () => {
   const help = `
-  json2gsheet - Serializes JSON data to Google Sheet, and vice versa.
+  json2gsheet - Serializes JSON data to Google Sheets, and vice versa.
 
   Usage: json2gsheet <push|pull> <id>
 
   Subcommands:
 
-    push - Push local JSON data to Google Sheet
-    pull - Pull Google Sheet data to local JSON file
+    push - Push local JSON data to Google Sheets
+    pull - Pull Google Sheets data to local JSON file
 
   Arguments:
 
