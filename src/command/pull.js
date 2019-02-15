@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { promisify } from 'util'
 import { unflatten } from 'flat'
-import google from 'googleapis'
+import { google } from 'googleapis'
 import { getConfig } from '../config'
 import {
   makeA1Notation,
@@ -58,7 +58,7 @@ const readSheetToJson = (config, column) => {
           ]
         }, (err, result) => {
           if (err) reject(err)
-          resolve(result.valueRanges)
+          resolve(result.data.valueRanges)
         })
       })
     })

@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { promisify } from 'util'
 import flatten from 'flat'
-import google from 'googleapis'
+import { google } from 'googleapis'
 import { getConfig } from '../config'
 import {
   makeA1Notation,

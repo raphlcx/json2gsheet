@@ -1,7 +1,7 @@
 import fs from 'fs'
 import readline from 'readline'
 import { promisify } from 'util'
-import GoogleAuth from 'google-auth-library'
+import { OAuth2Client } from 'google-auth-library'
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/
@@ -15,7 +15,7 @@ const TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.json2gsheet.json'
  * Authorize to get an OAuth2 client with client secret.
  *
  * @async
- * @returns {google.auth.OAuth2} The OAuth2 client.
+ * @returns {OAuth2Client} The OAuth2 client.
  */
 export const authorize = () =>
   promisify(fs.readFile)('client_secret.json')
@@ -28,19 +28,19 @@ export const authorize = () =>
  *
  * @async
  * @param {Object} credentials The authorization client credentials.
- * @returns {google.auth.OAuth2} The created OAuth2 client.
+ * @returns {OAuth2Client} The created OAuth2 client.
  */
-export const createAuthClient = (credentials) => {
-  const clientSecret = credentials.installed.client_secret
-  const clientId = credentials.installed.client_id
-  const redirectUrl = credentials.installed.redirect_uris[0]
-  const auth = new GoogleAuth()
-  const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
+const createAuthClient = (credentials) => {
+  const oauth2Client = new OAuth2Client(
+    credentials.installed.client_id,
+    credentials.installed.client_secret,
+    credentials.installed.redirect_uris[0]
+  )
 
   // Check if we have previously stored a token.
   return promisify(fs.readFile)(TOKEN_PATH)
     .then(token => {
-      oauth2Client.credentials = JSON.parse(token)
+      oauth2Client.setCredentials(JSON.parse(token))
       return oauth2Client
     })
     .catch(() => {
@@ -52,8 +52,8 @@ export const createAuthClient = (credentials) => {
  * Get and store new token after prompting for user authorization.
  *
  * @async
- * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
- * @returns {google.auth.OAuth2} The OAuth2 client with token attached.
+ * @param {OAuth2Client} oauth2Client The OAuth2 client to get token for.
+ * @returns {OAuth2Client} The OAuth2 client with token attached.
  */
 const getNewToken = (oauth2Client) => {
   const authUrl = oauth2Client.generateAuthUrl({
@@ -84,7 +84,7 @@ const getNewToken = (oauth2Client) => {
       return token
     })
     .then(token => {
-      oauth2Client.credentials = token
+      oauth2Client.setCredentials(token)
       return oauth2Client
     })
     .catch(err => {
@@ -105,6 +105,6 @@ const storeToken = (token) => {
       throw err
     }
   }
-  fs.writeFile(TOKEN_PATH, JSON.stringify(token))
+  fs.writeFileSync(TOKEN_PATH, JSON.stringify(token))
   console.log('Token stored to ' + TOKEN_PATH)
 }
