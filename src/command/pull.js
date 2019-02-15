@@ -28,6 +28,7 @@ export const pull = (id) => {
       return data
     })
     .then(deflat)
+    .then(deepSortByKey)
     .then(stringify)
     .then(data => write(
       getFileName(config.app.jsonFileName, id), data
@@ -108,6 +109,18 @@ const getColumnValue = (col, rowIndex) => {
 
 const deflat = json =>
   new Promise((resolve) => resolve(unflatten(json)))
+
+const _deepSortByKey = json =>
+  Object.keys(json).sort().reduce((acc, key) => {
+    typeof json[key] === 'object' && json[key] !== null
+      ? acc[key] = _deepSortByKey(json[key])
+      : acc[key] = json[key]
+
+    return acc
+  }, {})
+
+export const deepSortByKey = json =>
+  new Promise((resolve) => resolve(_deepSortByKey(json)))
 
 const stringify = json =>
   new Promise((resolve) => resolve(JSON.stringify(json, null, 2)))
