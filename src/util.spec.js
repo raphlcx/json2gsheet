@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 import { expect } from 'chai'
 import {
+  deepGetObject,
   makeA1Notation,
   getColumnById,
-  getDeepObject,
-  getFileName
-} from './index'
+  getJSONFileName
+} from './util'
 
 describe('util', function () {
   describe('makeA1Notation', function () {
@@ -44,7 +44,7 @@ describe('util', function () {
     })
   })
 
-  describe('getDeepObject', function () {
+  describe('deepGetObject', function () {
     const obj = {
       a: {
         b: {
@@ -55,7 +55,7 @@ describe('util', function () {
 
     it('returns value if key is found', function () {
       expect(
-        getDeepObject(['a', 'b', 'c'], obj)
+        deepGetObject(obj, ['a', 'b', 'c'])
       ).to.equal(
         1
       )
@@ -63,15 +63,15 @@ describe('util', function () {
 
     it('returns null if key is not found', function () {
       expect(
-        getDeepObject(['a', 'b', 'nonExistent'], obj)
+        deepGetObject(obj, ['a', 'b', 'nonExistent'])
       ).to.be.null
     })
   })
 
-  describe('getFileName', function () {
+  describe('getJSONFileName', function () {
     it('returns replaces the ID placeholder with supplied ID', function () {
       expect(
-        getFileName('test.$id.html', '123abc')
+        getJSONFileName('test.$id.html', '123abc')
       ).to.equal('test.123abc.html')
     })
   })

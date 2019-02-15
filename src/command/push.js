@@ -6,14 +6,14 @@ import { getConfig } from '../config'
 import {
   makeA1Notation,
   getColumnById,
-  getFileName
+  getJSONFileName
 } from '../util'
 import { authorize } from '../auth'
 
 export const push = (id) => {
   const config = getConfig()
   const column = getColumnById(config.sheets.valueColumns, id)
-  return read(getFileName(config.app.jsonFileName, id))
+  return read(getJSONFileName(config.app.jsonFileName, id))
     .then(parse)
     .then(flat)
     .then(json => writeJsonToSheet(config, json, column))

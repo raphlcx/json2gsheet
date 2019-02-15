@@ -11,8 +11,8 @@ export const getColumnById = (columns, id) => {
   )
 }
 
-export const getDeepObject = (p, o) =>
-  p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+export const deepGetObject = (object, keys) =>
+  keys.reduce((acc, key) => (acc && acc[key]) ? acc[key] : null, object)
 
-export const getFileName = (fileNameTemplate, id) =>
+export const getJSONFileName = (fileNameTemplate, id) =>
   fileNameTemplate.replace('$id', id)

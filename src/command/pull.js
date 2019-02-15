@@ -4,18 +4,18 @@ import { unflatten } from 'flat'
 import { google } from 'googleapis'
 import { getConfig } from '../config'
 import {
+  deepGetObject,
   makeA1Notation,
   getColumnById,
-  getDeepObject,
-  getFileName
+  getJSONFileName
 } from '../util'
 import { authorize } from '../auth'
 
 export const pull = (id) => {
   const config = getConfig()
-  const configSkipEmptyValue = getDeepObject(
-    ['app', 'command', 'pull', 'skipEmptyValue'],
-    config
+  const configSkipEmptyValue = deepGetObject(
+    config,
+    ['app', 'command', 'pull', 'skipEmptyValue']
   )
 
   const column = getColumnById(config.sheets.valueColumns, id)
@@ -31,7 +31,7 @@ export const pull = (id) => {
     .then(deepSortByKey)
     .then(stringify)
     .then(data => write(
-      getFileName(config.app.jsonFileName, id), data
+      getJSONFileName(config.app.jsonFileName, id), data
     ))
     .catch(err => console.log('Error on pull:', err))
 }
