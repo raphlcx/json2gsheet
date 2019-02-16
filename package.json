@@ -2,11 +2,11 @@
   "name": "json2gsheet",
   "version": "0.5.0",
   "description": "Serializes JSON data to Google Sheet, and vice versa",
-  "main": "index.js",
   "author": "Raphx <rcxng93@hotmail.com>",
   "license": "MIT",
   "repository": "mindvalley/json2gsheet",
-  "bin": "dist/index.js",
+  "main": "src/index.js",
+  "bin": "dist/cli.js",
   "scripts": {
     "lint": "eslint src",
     "build": "babel src -d dist --delete-dir-on-start",
