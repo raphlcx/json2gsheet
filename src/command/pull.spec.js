@@ -118,7 +118,7 @@ describe('Pull command', function () {
       ).to.eventually.be.ordered.members(expectedOrder)
     })
 
-    it('deeps sorts JSON fields', function () {
+    it('deep sorts JSON fields', function () {
       const json = {
         'key3': 'c',
         'key4': {
