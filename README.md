@@ -170,6 +170,16 @@ Run the tests:
 npm test
 ```
 
+Publish to npm:
+
+Update `package.json` with new version, make a commit, create the tag, then run:
+
+```
+npm run build
+npm pack
+npm publish <tarball>
+```
+
 ## License
 
 [MIT](LICENSE)
