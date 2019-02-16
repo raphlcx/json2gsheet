@@ -10,7 +10,7 @@ import {
 } from '../util'
 import { authorize } from '../auth'
 
-export const push = (id) => {
+const push = (id) => {
   const config = getConfig()
   const column = getColumnById(config.sheets.valueColumns, id)
   return read(getJSONFileName(config.app.jsonFileName, id))
@@ -64,4 +64,8 @@ const writeJsonToSheet = (config, json, column) => {
         })
       })
     })
+}
+
+module.exports = {
+  push
 }

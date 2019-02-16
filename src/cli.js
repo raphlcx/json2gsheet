@@ -1,6 +1,8 @@
-import command from './command'
+#!/usr/bin/env node
 
-export const main = () => {
+import json2gsheet from './index'
+
+const cli = () => {
   const help = `
   json2gsheet - Serializes JSON data to Google Sheets, and vice versa.
 
@@ -27,10 +29,10 @@ export const main = () => {
 
   switch (subcommand) {
     case 'push':
-      command.push(id)
+      json2gsheet.push(id)
       break
     case 'pull':
-      command.pull(id)
+      json2gsheet.pull(id)
       break
     default:
       console.log('Invalid subcommand.')
@@ -38,3 +40,5 @@ export const main = () => {
       process.exit(0)
   }
 }
+
+cli()

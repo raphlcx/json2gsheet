@@ -17,7 +17,7 @@ const TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.json2gsheet.json'
  * @async
  * @returns {OAuth2Client} The OAuth2 client.
  */
-export const authorize = () =>
+const authorize = () =>
   promisify(fs.readFile)('client_secret.json')
     .then(content => {
       return createAuthClient(JSON.parse(content))
@@ -107,4 +107,8 @@ const storeToken = (token) => {
   }
   fs.writeFileSync(TOKEN_PATH, JSON.stringify(token))
   console.log('Token stored to ' + TOKEN_PATH)
+}
+
+module.exports = {
+  authorize
 }

@@ -1,7 +1,7 @@
-export const makeA1Notation = (sheetName, rangeA, rangeB) =>
+const makeA1Notation = (sheetName, rangeA, rangeB) =>
   `'${sheetName}'!${rangeA}:${rangeB}`
 
-export const getColumnById = (columns, id) => {
+const getColumnById = (columns, id) => {
   const column = columns.filter(column => column.id === id)
   if (column.length > 0) {
     return column[0]
@@ -11,8 +11,15 @@ export const getColumnById = (columns, id) => {
   )
 }
 
-export const deepGetObject = (object, keys) =>
+const deepGetObject = (object, keys) =>
   keys.reduce((acc, key) => (acc && acc[key]) ? acc[key] : null, object)
 
-export const getJSONFileName = (fileNameTemplate, id) =>
+const getJSONFileName = (fileNameTemplate, id) =>
   fileNameTemplate.replace('$id', id)
+
+module.exports = {
+  deepGetObject,
+  getColumnById,
+  getJSONFileName,
+  makeA1Notation
+}

@@ -11,7 +11,7 @@ import {
 } from '../util'
 import { authorize } from '../auth'
 
-export const pull = (id) => {
+const pull = (id) => {
   const config = getConfig()
   const configSkipEmptyValue = deepGetObject(
     config,
@@ -64,7 +64,7 @@ const readSheetToJson = (config, column) => {
     })
 }
 
-export const assemble = data => {
+const assemble = data => {
   const [keyCol, valueCol] = data
   return new Promise((resolve) => {
     resolve(
@@ -81,7 +81,7 @@ export const assemble = data => {
   })
 }
 
-export const filterEmptyValue = json =>
+const filterEmptyValue = json =>
   new Promise((resolve) => {
     resolve(
       Object.keys(json).reduce((acc, key) => {
@@ -119,7 +119,7 @@ const _deepSortByKey = json =>
     return acc
   }, {})
 
-export const deepSortByKey = json =>
+const deepSortByKey = json =>
   new Promise((resolve) => resolve(_deepSortByKey(json)))
 
 const stringify = json =>
@@ -127,3 +127,10 @@ const stringify = json =>
 
 const write = (fileName, data) =>
   promisify(fs.writeFile)(fileName, data, 'utf-8')
+
+module.exports = {
+  pull,
+  assemble,
+  filterEmptyValue,
+  deepSortByKey
+}

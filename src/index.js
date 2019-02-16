@@ -1,5 +1,6 @@
-#!/usr/bin/env node
+import { pull, push } from './command'
 
-import { main } from './cli'
-
-main()
+module.exports = {
+  pull,
+  push
+}
