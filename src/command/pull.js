@@ -130,7 +130,7 @@ const deepSortByKey = ({ config, id, json }) =>
 
 const _deepSortByKey = json =>
   Object.keys(json).sort().reduce((acc, key) => {
-    typeof json[key] === 'object' && json[key] !== null
+    Object.prototype.toString.call(json[key]) === '[object Object]'
       ? acc[key] = _deepSortByKey(json[key])
       : acc[key] = json[key]
 

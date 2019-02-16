@@ -157,5 +157,17 @@ describe('Pull command', function () {
         result
       ).to.eventually.be.deep.ordered.members(expectedOrder)
     })
+
+    it('does not attempt to sort array', function () {
+      const json = {
+        'key2': 'b',
+        'key1': ['value1', 'value2']
+      }
+      const expected = ['value1', 'value2']
+
+      return expect(
+        deepSortByKey({ json }).then(res => res.json.key1)
+      ).to.eventually.be.deep.ordered.members(expected)
+    })
   })
 })
