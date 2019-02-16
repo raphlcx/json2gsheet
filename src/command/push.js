@@ -2,7 +2,6 @@ import fs from 'fs'
 import { promisify } from 'util'
 import flatten from 'flat'
 import { google } from 'googleapis'
-import { getConfig } from '../config'
 import {
   makeA1Notation,
   getColumnById,
@@ -10,31 +9,43 @@ import {
 } from '../util'
 import { authorize } from '../auth'
 
-const push = (id) => {
-  const config = getConfig()
-  const column = getColumnById(config.sheets.valueColumns, id)
-  return read(getJSONFileName(config.app.jsonFileName, id))
+const push = (config, id) =>
+  read({ config, id })
     .then(parse)
     .then(flat)
-    .then(json => writeJsonToSheet(config, json, column))
-    .catch(err => console.log('Error on push:', err))
+    .then(writeJsonToSheet)
+    .catch(err => console.error('Error on push:', err))
+
+const read = ({ config, id }) => {
+  const fileName = getJSONFileName(config.app.jsonFileName, id)
+
+  return promisify(fs.readFile)(fileName, 'utf-8')
+    .then(data => {
+      return { config, id, data }
+    })
 }
 
-const read = fileName =>
-  promisify(fs.readFile)(fileName, 'utf-8')
+const parse = ({ config, id, data }) =>
+  new Promise((resolve) => resolve({
+    config,
+    id,
+    json: JSON.parse(data)
+  }))
 
-const parse = data =>
-  new Promise((resolve) => resolve(JSON.parse(data)))
+const flat = ({ config, id, json }) =>
+  new Promise((resolve) => resolve({
+    config,
+    id,
+    json: flatten(json)
+  }))
 
-const flat = json =>
-  new Promise((resolve) => resolve(flatten(json)))
+const writeJsonToSheet = ({ config, id, json }) => {
+  const column = getColumnById(config.sheets.valueColumns, id)
 
-const writeJsonToSheet = (config, json, column) => {
   return authorize()
-    .then(auth => {
-      const service = google.sheets('v4')
-      return new Promise((resolve, reject) => {
-        service.spreadsheets.values.batchUpdate({
+    .then(auth =>
+      new Promise((resolve, reject) =>
+        google.sheets('v4').spreadsheets.values.batchUpdate({
           spreadsheetId: config.sheets.spreadsheetId,
           auth: auth,
           resource: {
@@ -62,8 +73,8 @@ const writeJsonToSheet = (config, json, column) => {
           if (err) reject(err)
           resolve(result)
         })
-      })
-    })
+      )
+    )
 }
 
 module.exports = {

@@ -2,7 +2,6 @@ import fs from 'fs'
 import { promisify } from 'util'
 import { unflatten } from 'flat'
 import { google } from 'googleapis'
-import { getConfig } from '../config'
 import {
   deepGetObject,
   makeA1Notation,
@@ -11,37 +10,23 @@ import {
 } from '../util'
 import { authorize } from '../auth'
 
-const pull = (id) => {
-  const config = getConfig()
-  const configSkipEmptyValue = deepGetObject(
-    config,
-    ['app', 'command', 'pull', 'skipEmptyValue']
-  )
-
-  const column = getColumnById(config.sheets.valueColumns, id)
-  return readSheetToJson(config, column)
+const pull = (config, id) =>
+  readSheetToJson({ config, id })
     .then(assemble)
-    .then(data => {
-      if (configSkipEmptyValue === true) {
-        return filterEmptyValue(data)
-      }
-      return data
-    })
+    .then(compact)
     .then(deflat)
     .then(deepSortByKey)
     .then(stringify)
-    .then(data => write(
-      getJSONFileName(config.app.jsonFileName, id), data
-    ))
-    .catch(err => console.log('Error on pull:', err))
-}
+    .then(write)
+    .catch(err => console.error('Error on pull:', err))
 
-const readSheetToJson = (config, column) => {
+const readSheetToJson = ({ config, id }) => {
+  const column = getColumnById(config.sheets.valueColumns, id)
+
   return authorize()
-    .then(auth => {
-      const service = google.sheets('v4')
-      return new Promise((resolve, reject) => {
-        service.spreadsheets.values.batchGet({
+    .then(auth =>
+      new Promise((resolve, reject) =>
+        google.sheets('v4').spreadsheets.values.batchGet({
           spreadsheetId: config.sheets.spreadsheetId,
           auth: auth,
           ranges: [
@@ -58,40 +43,37 @@ const readSheetToJson = (config, column) => {
           ]
         }, (err, result) => {
           if (err) reject(err)
-          resolve(result.data.valueRanges)
+
+          resolve({
+            config,
+            id,
+            data: result.data.valueRanges
+          })
         })
-      })
-    })
+      )
+    )
 }
 
-const assemble = data => {
+const assemble = ({ config, id, data }) => {
   const [keyCol, valueCol] = data
-  return new Promise((resolve) => {
-    resolve(
-      keyCol.values
-        .map((k, i) => [
-          k[0],
-          getColumnValue(valueCol, i)
-        ]) // a zip function
-        .reduce((acc, cur) => {
-          acc[cur[0]] = cur[1]
-          return acc
-        }, {})
-    )
-  })
+
+  const json =
+    keyCol.values.map((k, i) =>
+      // a zip function
+      [k[0], _getColumnValue(valueCol, i)]
+    ).reduce((acc, cur) => {
+      acc[cur[0]] = cur[1]
+      return acc
+    }, {})
+
+  return new Promise((resolve) => resolve({
+    config,
+    id,
+    json
+  }))
 }
 
-const filterEmptyValue = json =>
-  new Promise((resolve) => {
-    resolve(
-      Object.keys(json).reduce((acc, key) => {
-        if (json[key] !== '') acc[key] = json[key]
-        return acc
-      }, {})
-    )
-  })
-
-const getColumnValue = (col, rowIndex) => {
+const _getColumnValue = (col, rowIndex) => {
   if (col.values === undefined) {
     // The whole column is empty
     return ''
@@ -107,8 +89,44 @@ const getColumnValue = (col, rowIndex) => {
   return col.values[rowIndex][0]
 }
 
-const deflat = json =>
-  new Promise((resolve) => resolve(unflatten(json)))
+const compact = ({ config, id, json }) => {
+  const skipEmptyValue = deepGetObject(
+    config,
+    ['app', 'command', 'pull', 'skipEmptyValue']
+  )
+
+  var result
+
+  if (skipEmptyValue === true) {
+    result =
+      Object.keys(json).reduce((acc, key) => {
+        if (json[key] !== '') acc[key] = json[key]
+        return acc
+      }, {})
+  } else {
+    result = json
+  }
+
+  return new Promise((resolve) => resolve({
+    config,
+    id,
+    json: result
+  }))
+}
+
+const deflat = ({ config, id, json }) =>
+  new Promise((resolve) => resolve({
+    config,
+    id,
+    json: unflatten(json)
+  }))
+
+const deepSortByKey = ({ config, id, json }) =>
+  new Promise((resolve) => resolve({
+    config,
+    id,
+    json: _deepSortByKey(json)
+  }))
 
 const _deepSortByKey = json =>
   Object.keys(json).sort().reduce((acc, key) => {
@@ -119,18 +137,22 @@ const _deepSortByKey = json =>
     return acc
   }, {})
 
-const deepSortByKey = json =>
-  new Promise((resolve) => resolve(_deepSortByKey(json)))
+const stringify = ({ config, id, json }) =>
+  new Promise((resolve) => resolve({
+    config,
+    id,
+    data: JSON.stringify(json, null, 2)
+  }))
 
-const stringify = json =>
-  new Promise((resolve) => resolve(JSON.stringify(json, null, 2)))
+const write = ({ config, id, data }) => {
+  const fileName = getJSONFileName(config.app.jsonFileName, id)
 
-const write = (fileName, data) =>
-  promisify(fs.writeFile)(fileName, data, 'utf-8')
+  return promisify(fs.writeFile)(fileName, data, 'utf-8')
+}
 
 module.exports = {
   pull,
   assemble,
-  filterEmptyValue,
+  compact,
   deepSortByKey
 }

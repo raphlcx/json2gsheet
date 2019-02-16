@@ -3,7 +3,7 @@ import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import {
   assemble,
-  filterEmptyValue,
+  compact,
   deepSortByKey
 } from './pull'
 
@@ -12,7 +12,7 @@ const expect = chai.expect
 
 describe('Pull command', function () {
   describe('Data assembling', function () {
-    it('assembles Sheet data to a flat json object', function () {
+    it('assembles sheet data to a flat json object', function () {
       const data = [
         { values: [['key1'], ['key2'], ['key3']] },
         { values: [['val1'], ['val2'], ['val3']] }
@@ -23,11 +23,11 @@ describe('Pull command', function () {
         'key3': 'val3'
       }
       return expect(
-        assemble(data)
+        assemble({ data }).then(res => res.json)
       ).to.eventually.be.deep.equal(expected)
     })
 
-    it('sets empty string value for empty Sheet column', function () {
+    it('sets empty string value for empty sheet column', function () {
       const data = [
         { values: [['key1'], ['key2'], ['key3']] },
         { undefined }
@@ -38,11 +38,11 @@ describe('Pull command', function () {
         'key3': ''
       }
       return expect(
-        assemble(data)
+        assemble({ data }).then(res => res.json)
       ).to.eventually.be.deep.equal(expected)
     })
 
-    it('sets empty string for empty Sheet cell at the end', function () {
+    it('sets empty string for empty sheet cell at the end', function () {
       const data = [
         { values: [['key1'], ['key2'], ['key3']] },
         { values: [['val1'], ['val2']] }
@@ -53,11 +53,11 @@ describe('Pull command', function () {
         'key3': ''
       }
       return expect(
-        assemble(data)
+        assemble({ data }).then(res => res.json)
       ).to.eventually.be.deep.equal(expected)
     })
 
-    it('sets empty string for empty Sheet cell at the beginning', function () {
+    it('sets empty string for empty sheet cell at the beginning', function () {
       const data = [
         { values: [['key1'], ['key2'], ['key3']] },
         { values: [[], ['val2'], ['val3']] }
@@ -68,13 +68,22 @@ describe('Pull command', function () {
         'key3': 'val3'
       }
       return expect(
-        assemble(data)
+        assemble({ data }).then(res => res.json)
       ).to.eventually.be.deep.equal(expected)
     })
   })
 
   describe('Empty value filtering', function () {
     it('filters out entry with empty value', function () {
+      const config = {
+        app: {
+          command: {
+            pull: {
+              skipEmptyValue: true
+            }
+          }
+        }
+      }
       const json = {
         'key.a': 'somestring',
         'key.b': '',
@@ -85,7 +94,7 @@ describe('Pull command', function () {
         'key.c': 'anotherstring'
       }
       return expect(
-        filterEmptyValue(json)
+        compact({ config, json }).then(res => res.json)
       ).to.eventually.be.deep.equal(expected)
     })
   })
@@ -101,8 +110,8 @@ describe('Pull command', function () {
       const expectedOrder = ['key1', 'key2', 'key3']
 
       const result =
-        deepSortByKey(json)
-          .then(json => Object.keys(json))
+        deepSortByKey({ json })
+          .then(res => Object.keys(res.json))
 
       return expect(
         result
@@ -141,8 +150,8 @@ describe('Pull command', function () {
         )
 
       const result =
-        deepSortByKey(json)
-          .then(json => fetchObjectKeys(json))
+        deepSortByKey({ json })
+          .then(res => fetchObjectKeys(res.json))
 
       return expect(
         result

@@ -26,13 +26,14 @@ const cli = () => {
 
   const subcommand = process.argv[2]
   const id = process.argv[3]
+  const config = json2gsheet.getConfig()
 
   switch (subcommand) {
     case 'push':
-      json2gsheet.push(id)
+      json2gsheet.push(config, id)
       break
     case 'pull':
-      json2gsheet.pull(id)
+      json2gsheet.pull(config, id)
       break
     default:
       console.log('Invalid subcommand.')
