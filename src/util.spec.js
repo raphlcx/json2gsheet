@@ -64,7 +64,7 @@ describe('util', function () {
     it('returns null if key is not found', function () {
       expect(
         deepGetObject(obj, ['a', 'b', 'nonExistent'])
-      ).to.be.null
+      ).to.be.equal(null)
     })
   })
 
