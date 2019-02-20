@@ -1,4 +1,5 @@
 import fs from 'fs'
+import os from 'os'
 import { promisify } from 'util'
 import { unflatten } from 'flat'
 import { google } from 'googleapis'
@@ -17,6 +18,7 @@ const pull = (config, id) =>
     .then(deflat)
     .then(deepSortByKey)
     .then(stringify)
+    .then(ensureEOL)
     .then(write)
     .catch(err => console.error('Error on pull:', err))
 
@@ -144,6 +146,13 @@ const stringify = ({ config, id, json }) =>
     data: JSON.stringify(json, null, 2)
   }))
 
+const ensureEOL = ({ config, id, data }) =>
+  new Promise((resolve) => resolve({
+    config,
+    id,
+    data: data + os.EOL
+  }))
+
 const write = ({ config, id, data }) => {
   const fileName = getJSONFileName(config.app.jsonFileName, id)
 
@@ -154,5 +163,6 @@ module.exports = {
   pull,
   assemble,
   compact,
-  deepSortByKey
+  deepSortByKey,
+  ensureEOL
 }

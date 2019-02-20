@@ -4,7 +4,8 @@ import chaiAsPromised from 'chai-as-promised'
 import {
   assemble,
   compact,
-  deepSortByKey
+  deepSortByKey,
+  ensureEOL
 } from './pull'
 
 chai.use(chaiAsPromised)
@@ -168,6 +169,16 @@ describe('Pull command', function () {
       return expect(
         deepSortByKey({ json }).then(res => res.json.key1)
       ).to.eventually.be.deep.ordered.members(expected)
+    })
+  })
+
+  describe('End of line character', function () {
+    it('ensures end of line is added to the end of stringified JSON', function () {
+      const data = '{"key1": "a"}'
+
+      return expect(
+        ensureEOL({ data }).then(res => res.data)
+      ).to.eventually.match(/\r?\n$/)
     })
   })
 })
