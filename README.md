@@ -170,7 +170,7 @@ Run the tests:
 npm test
 ```
 
-To publish to npm, update `package.json` with new version, make a commit, create the tag, then run:
+To publish to npm, update `package.json` with new version, make a commit, create an annotated tag, then run:
 
 ```
 npm run build
