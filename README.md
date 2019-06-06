@@ -1,5 +1,8 @@
 # json2gsheet
 
+![Travis (.com)](https://img.shields.io/travis/com/raphx/json2gsheet.svg?style=flat-square)
+![npm](https://img.shields.io/npm/v/json2gsheet.svg?style=flat-square)
+
 Serializes JSON data to Google Sheets, and vice versa.
 
 ## Installation
