@@ -1,1 +1,5 @@
+# Credential
 client_secret.json
+
+# CI
+travis.yml
