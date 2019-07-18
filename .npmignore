@@ -1,1 +1,11 @@
+# Existing archives
+*.tgz
+
+# Credential
 client_secret.json
+
+# Development and CI
+mocha.opts
+.babelrc
+.eslintrc.json
+.travis.yml
