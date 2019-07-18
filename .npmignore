@@ -1,3 +1,6 @@
+# Existing archives
+*.tgz
+
 # Credential
 client_secret.json
 
