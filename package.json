@@ -34,7 +34,9 @@
     "googleapis": "^41.0.1"
   },
   "babel": {
-    "presets": ["@babel/env"]
+    "presets": [
+      "@babel/env"
+    ]
   },
   "eslintConfig": {
     "root": true,
