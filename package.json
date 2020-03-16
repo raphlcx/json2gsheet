@@ -5,8 +5,12 @@
   "author": "Raphx <rcxng93@hotmail.com>",
   "license": "MIT",
   "repository": "Raphx/json2gsheet",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "bin": "dist/cli.js",
+  "files": [
+    "/dist",
+    "/json2gsheet.config.json"
+  ],
   "scripts": {
     "lint": "eslint src",
     "build": "babel src -d dist --delete-dir-on-start",
