@@ -2,7 +2,7 @@
   "name": "json2gsheet",
   "version": "0.5.8",
   "description": "Serializes JSON data to Google Sheet, and vice versa",
-  "author": "Raphx <rcxng93@hotmail.com>",
+  "author": "Raphx <ralcx@outlook.com>",
   "license": "MIT",
   "repository": "Raphx/json2gsheet",
   "main": "dist/index.js",
