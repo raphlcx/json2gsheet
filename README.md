@@ -88,7 +88,7 @@ In a working directory, prepare these files:
 
   - `client_secret.json`
 
-    OAuth2 client credential for authenticating with Google.
+    Google API credential in JSON format.
 
 ### Pushing JSON to sheet
 
