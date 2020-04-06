@@ -5,7 +5,7 @@ import {
   makeA1Notation,
   getColumnById,
   getJSONFileName
-} from './util'
+} from '../src/util'
 
 describe('util', function () {
   describe('makeA1Notation', function () {
