@@ -1,6 +1,6 @@
 {
   "name": "json2gsheet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Serializes JSON data to Google Sheet, and vice versa",
   "author": "Raphx <ralcx@outlook.com>",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
+    "@babel/register": "^7.9.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
@@ -52,6 +53,7 @@
     "extends": "standard"
   },
   "mocha": {
-    "spec": "dist/**/*.spec.js"
+    "require": "@babel/register",
+    "recursive": true
   }
 }
