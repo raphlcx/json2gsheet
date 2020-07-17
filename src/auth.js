@@ -13,9 +13,7 @@ async function authorize () {
     scopes: SCOPES,
     keyFile: 'client_secret.json'
   })
-  const client = await auth.getClient()
-  console.log(client)
-  return client
+  return await auth.getClient()
 }
 
 module.exports = {
