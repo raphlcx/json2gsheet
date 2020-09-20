@@ -173,7 +173,16 @@ Run the tests:
 npm test
 ```
 
-To publish to npm, update `package.json` with new version, make a commit, create an annotated tag, then run:
+To prepare for a new version:
+
+  1. Create a new branch.
+  1. Update version on `package.json` and `package-lock.json`.
+  1. Make a commit.
+  1. Merge the branch to master.
+  1. Create an annotated tag.
+  1. Push the tag.
+
+To publish the new version:
 
 ```
 npm run build
