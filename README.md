@@ -80,6 +80,8 @@ When pulled from the sheet, it is de-flattened to restore the initial nested str
 
 ## Usage
 
+### Preparation
+
 In a working directory, prepare these files:
 
   - `json2gsheet.config.json`
@@ -89,6 +91,14 @@ In a working directory, prepare these files:
   - `client_secret.json`
 
     Google API credential in JSON format.
+
+To get your `client_secret.json`:
+
+  1. On a Google Cloud Platform project, enable Google Sheets API.
+  1. Create a service account, note its email address.
+  1. Download the JSON credential file and name it as `client_secret.json`.
+
+On your sheet, grant Editor access to the service account, via its email address.
 
 ### Pushing JSON to sheet
 
