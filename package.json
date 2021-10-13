@@ -4,7 +4,7 @@
   "description": "Serializes JSON data to Google Sheet, and vice versa",
   "author": "Ling Cong Xiang <ralcx@outlook.com>",
   "license": "MIT",
-  "repository": "Raphx/json2gsheet",
+  "repository": "raphlcx/json2gsheet",
   "main": "dist/index.js",
   "bin": "dist/cli.js",
   "files": [
