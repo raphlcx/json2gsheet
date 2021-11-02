@@ -97,7 +97,7 @@ const compact = ({ config, id, json }) => {
     ['app', 'command', 'pull', 'skipEmptyValue']
   )
 
-  var result
+  let result
 
   if (skipEmptyValue === true) {
     result =
