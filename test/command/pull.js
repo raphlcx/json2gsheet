@@ -1,15 +1,10 @@
-/* eslint-env mocha */
-import chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+import assert from 'assert/strict'
 import {
   assemble,
   compact,
   deepSortByKey,
   ensureEOL
 } from '../../src/command/pull'
-
-chai.use(chaiAsPromised)
-const expect = chai.expect
 
 describe('Pull command', function () {
   describe('Data assembling', function () {
@@ -23,9 +18,10 @@ describe('Pull command', function () {
         key2: 'val2',
         key3: 'val3'
       }
-      return expect(
-        assemble({ data }).then(res => res.json)
-      ).to.eventually.be.deep.equal(expected)
+      return assert.doesNotReject(
+        assemble({ data })
+          .then(res => assert.deepEqual(res.json, expected))
+      )
     })
 
     it('sets empty string value for empty sheet column', function () {
@@ -38,9 +34,10 @@ describe('Pull command', function () {
         key2: '',
         key3: ''
       }
-      return expect(
-        assemble({ data }).then(res => res.json)
-      ).to.eventually.be.deep.equal(expected)
+      return assert.doesNotReject(
+        assemble({ data })
+          .then(res => assert.deepEqual(res.json, expected))
+      )
     })
 
     it('sets empty string for empty sheet cell at the end', function () {
@@ -53,9 +50,10 @@ describe('Pull command', function () {
         key2: 'val2',
         key3: ''
       }
-      return expect(
-        assemble({ data }).then(res => res.json)
-      ).to.eventually.be.deep.equal(expected)
+      return assert.doesNotReject(
+        assemble({ data })
+          .then(res => assert.deepEqual(res.json, expected))
+      )
     })
 
     it('sets empty string for empty sheet cell at the beginning', function () {
@@ -68,9 +66,10 @@ describe('Pull command', function () {
         key2: 'val2',
         key3: 'val3'
       }
-      return expect(
-        assemble({ data }).then(res => res.json)
-      ).to.eventually.be.deep.equal(expected)
+      return assert.doesNotReject(
+        assemble({ data })
+          .then(res => assert.deepEqual(res.json, expected))
+      )
     })
   })
 
@@ -94,9 +93,10 @@ describe('Pull command', function () {
         'key.a': 'somestring',
         'key.c': 'anotherstring'
       }
-      return expect(
-        compact({ config, json }).then(res => res.json)
-      ).to.eventually.be.deep.equal(expected)
+      return assert.doesNotReject(
+        compact({ config, json })
+          .then(res => assert.deepEqual(res.json, expected))
+      )
     })
   })
 
@@ -110,13 +110,11 @@ describe('Pull command', function () {
 
       const expectedOrder = ['key1', 'key2', 'key3']
 
-      const result =
+      return assert.doesNotReject(
         deepSortByKey({ json })
           .then(res => Object.keys(res.json))
-
-      return expect(
-        result
-      ).to.eventually.be.ordered.members(expectedOrder)
+          .then(actual => assert.deepEqual(actual, expectedOrder))
+      )
     })
 
     it('deep sorts JSON fields', function () {
@@ -150,13 +148,11 @@ describe('Pull command', function () {
           typeof obj[k] === 'object' ? fetchObjectKeys(obj[k]) : k
         )
 
-      const result =
+      return assert.doesNotReject(
         deepSortByKey({ json })
           .then(res => fetchObjectKeys(res.json))
-
-      return expect(
-        result
-      ).to.eventually.be.deep.ordered.members(expectedOrder)
+          .then(actual => assert.deepEqual(actual, expectedOrder))
+      )
     })
 
     it('does not attempt to sort array', function () {
@@ -166,9 +162,11 @@ describe('Pull command', function () {
       }
       const expected = ['value1', 'value2']
 
-      return expect(
-        deepSortByKey({ json }).then(res => res.json.key1)
-      ).to.eventually.be.deep.ordered.members(expected)
+      return assert.doesNotReject(
+        deepSortByKey({ json })
+          .then(res => res.json.key1)
+          .then(actual => assert.deepEqual(actual, expected))
+      )
     })
   })
 
@@ -176,9 +174,10 @@ describe('Pull command', function () {
     it('ensures end of line is added to the end of stringified JSON', function () {
       const data = '{"key1": "a"}'
 
-      return expect(
-        ensureEOL({ data }).then(res => res.data)
-      ).to.eventually.match(/\r?\n$/)
+      return assert.doesNotReject(
+        ensureEOL({ data })
+          .then(res => assert.match(res.data, /\r?\n$/))
+      )
     })
   })
 })
