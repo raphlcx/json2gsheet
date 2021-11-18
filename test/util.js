@@ -1,5 +1,4 @@
-/* eslint-env mocha */
-import { expect } from 'chai'
+import assert from 'assert/strict'
 import {
   deepGetObject,
   makeA1Notation,
@@ -10,15 +9,17 @@ import {
 describe('util', function () {
   describe('makeA1Notation', function () {
     it('creates with A1 notation defined syntax', function () {
-      expect(
-        makeA1Notation('Sheet1', 'A', 'B')
-      ).to.equal("'Sheet1'!A:B")
+      assert.equal(
+        makeA1Notation('Sheet1', 'A', 'B'),
+        "'Sheet1'!A:B"
+      )
     })
 
     it('quotes around sheet name with space', function () {
-      expect(
-        makeA1Notation('Sheet 1', 'A', 'B')
-      ).to.equal("'Sheet 1'!A:B")
+      assert.equal(
+        makeA1Notation('Sheet 1', 'A', 'B'),
+        "'Sheet 1'!A:B"
+      )
     })
   })
 
@@ -30,17 +31,16 @@ describe('util', function () {
     ]
 
     it('returns a single column on ID match', function () {
-      expect(
-        getColumnById(columns, 'en')
-      ).to.equal(
+      assert.deepEqual(
+        getColumnById(columns, 'en'),
         columns[0]
       )
     })
 
     it('raises error on no ID match', function () {
-      expect(
+      assert.throws(
         () => getColumnById(columns, 'nonexistent')
-      ).to.throw()
+      )
     })
   })
 
@@ -54,25 +54,26 @@ describe('util', function () {
     }
 
     it('returns value if key is found', function () {
-      expect(
-        deepGetObject(obj, ['a', 'b', 'c'])
-      ).to.equal(
+      assert.equal(
+        deepGetObject(obj, ['a', 'b', 'c']),
         1
       )
     })
 
     it('returns null if key is not found', function () {
-      expect(
-        deepGetObject(obj, ['a', 'b', 'nonExistent'])
-      ).to.be.equal(null)
+      assert.strictEqual(
+        deepGetObject(obj, ['a', 'b', 'nonExistent']),
+        null
+      )
     })
   })
 
   describe('getJSONFileName', function () {
     it('returns replaces the ID placeholder with supplied ID', function () {
-      expect(
-        getJSONFileName('test.$id.html', '123abc')
-      ).to.equal('test.123abc.html')
+      assert.equal(
+        getJSONFileName('test.$id.html', '123abc'),
+        'test.123abc.html'
+      )
     })
   })
 })
