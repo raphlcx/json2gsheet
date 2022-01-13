@@ -187,7 +187,7 @@ To prepare for a new version:
   1. Create a new branch.
   1. Update version on `package.json` and `package-lock.json`.
   1. Make a commit.
-  1. Merge the branch to master.
+  1. Merge the branch.
   1. Create an annotated tag.
   1. Push the tag.
 
