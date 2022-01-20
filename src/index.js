@@ -1,8 +1,3 @@
-import { pull, push } from './command'
-import { getConfig } from './config'
-
-module.exports = {
-  getConfig,
-  pull,
-  push
-}
+export { pull } from './command/pull.js'
+export { push } from './command/push.js'
+export { getConfig } from './config.js'

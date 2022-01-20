@@ -1,17 +1,18 @@
-import fs from 'fs'
-import os from 'os'
-import { promisify } from 'util'
-import { unflatten } from 'flat'
+import fs from 'node:fs'
+import os from 'node:os'
+import { promisify } from 'node:util'
+import flat from 'flat'
+const { unflatten } = flat
 import { google } from 'googleapis'
 import {
   deepGetObject,
   makeA1Notation,
   getColumnById,
   getJSONFileName
-} from '../util'
-import { authorize } from '../auth'
+} from '../util.js'
+import { authorize } from '../auth.js'
 
-const pull = (config, id) =>
+export const pull = (config, id) =>
   readSheetToJson({ config, id })
     .then(assemble)
     .then(compact)
@@ -159,8 +160,7 @@ const write = ({ config, id, data }) => {
   return promisify(fs.writeFile)(fileName, data, 'utf-8')
 }
 
-module.exports = {
-  pull,
+export const t = {
   assemble,
   compact,
   deepSortByKey,

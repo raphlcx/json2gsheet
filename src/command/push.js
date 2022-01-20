@@ -1,15 +1,15 @@
-import fs from 'fs'
-import { promisify } from 'util'
+import fs from 'node:fs'
+import { promisify } from 'node:util'
 import flatten from 'flat'
 import { google } from 'googleapis'
 import {
   makeA1Notation,
   getColumnById,
   getJSONFileName
-} from '../util'
-import { authorize } from '../auth'
+} from '../util.js'
+import { authorize } from '../auth.js'
 
-const push = (config, id) =>
+export const push = (config, id) =>
   read({ config, id })
     .then(parse)
     .then(flat)
@@ -75,8 +75,4 @@ const writeJsonToSheet = ({ config, id, json }) => {
         })
       )
     )
-}
-
-module.exports = {
-  push
 }
