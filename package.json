@@ -2,9 +2,16 @@
   "name": "json2gsheet",
   "version": "1.0.11",
   "description": "Serializes JSON data to Google Sheet, and vice versa",
-  "author": "Ling Cong Xiang <ralcx@outlook.com>",
+  "keywords": [
+    "json",
+    "google-sheets"
+  ],
+  "author": "Ling Cong Xiang",
   "license": "MIT",
-  "repository": "raphlcx/json2gsheet",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raphlcx/json2gsheet.git"
+  },
   "main": "dist/index.js",
   "bin": "dist/cli.js",
   "files": [
