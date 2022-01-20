@@ -12,7 +12,10 @@
     "type": "git",
     "url": "https://github.com/raphlcx/json2gsheet.git"
   },
-  "main": "dist/index.js",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.js"
+  },
   "bin": "dist/cli.js",
   "files": [
     "/dist",
