@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import json2gsheet from './index'
+import * as json2gsheet from './index.js'
 
 const cli = () => {
   const help = `

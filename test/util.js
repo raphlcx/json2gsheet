@@ -1,10 +1,10 @@
-import assert from 'assert/strict'
+import { strict as assert } from 'node:assert'
 import {
   deepGetObject,
   makeA1Notation,
   getColumnById,
   getJSONFileName
-} from '../src/util'
+} from '../src/util.js'
 
 describe('util', function () {
   describe('makeA1Notation', function () {

@@ -1,10 +1,11 @@
-import assert from 'assert/strict'
-import {
+import { strict as assert } from 'node:assert'
+import { t } from '../../src/command/pull.js'
+const {
   assemble,
   compact,
   deepSortByKey,
   ensureEOL
-} from '../../src/command/pull'
+} = t
 
 describe('Pull command', function () {
   describe('Data assembling', function () {
