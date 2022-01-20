@@ -170,12 +170,6 @@ Basically the opposite of `push` subcommand.
 
 ## Development
 
-Run a watcher for source transpilation:
-
-```
-npm run build:w
-```
-
 Run the tests:
 
 ```
@@ -194,7 +188,6 @@ To prepare for a new version:
 To publish the new version:
 
 ```
-npm run build
 npm pack
 npm publish <tarball>
 ```
