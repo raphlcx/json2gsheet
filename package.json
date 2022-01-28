@@ -1,6 +1,6 @@
 {
   "name": "json2gsheet",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Serializes JSON data to Google Sheet, and vice versa",
   "keywords": [
     "json",
