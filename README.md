@@ -189,7 +189,7 @@ To publish the new version:
 
 ```
 npm pack
-npm publish <tarball>
+npm publish
 ```
 
 ## License
