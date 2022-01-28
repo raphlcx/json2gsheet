@@ -1,6 +1,6 @@
 {
   "name": "json2gsheet",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Serializes JSON data to Google Sheet, and vice versa",
   "keywords": [
     "json",
@@ -26,7 +26,7 @@
     "start": "node src/cli.js"
   },
   "devDependencies": {
-    "mocha": "^9.1.3"
+    "mocha": "^9.2.0"
   },
   "dependencies": {
     "flat": "^5.0.2",
